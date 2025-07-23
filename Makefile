@@ -3,12 +3,29 @@
 OUT_NAME 		   = rebar
 OUT_DIR	   		   = dist
 
-
-# Check this version before building!!!
-# If you are building for Windows, also check YEAR_MSVC, VERSION_MSVC, VERSION_WINDOWS and VERSION_KITS!!!
-VERSION_SDK 	   = 1.4.321.1
+RAW_ENTRIES 	   = main.cc cc/sdl.cc
 
 
+ENTRIES			   = $(foreach e,$(RAW_ENTRIES),../src/$(e))
+
+
+# ===  For MacOS  ===
+
+
+CC_MAC = g++
+
+SDK_MAC = /Users/user/VulkanSDK/1.4.321.0/macOS
+
+INCL_MAC = $(SDK_MAC)/include
+
+
+
+
+# === For Windows ===
+
+
+# C:\VulkanSDK\<???>
+VERSION_SDK_WIN	   = 1.4.321.1
 
 # C:\Program Files (x86)\Microsoft Visual Studio\<???>
 YEAR_MSVC		   = 2022
@@ -23,20 +40,16 @@ VERSION_WINDOWS	   = 10
 VERSION_KITS   	   = 10.0.26100.0
 
 
-
-# === For Windows ===
-
-
 # 1. Compiler, entry and out
 
 CC_WIN			 = cl
-ENTRIES_WIN		 = ..\src\main.cc ..\src\cc\sdl.cc
+ENTRIES_WIN		 = $(subst /,\,$(ENTRIES))
 SUBSYSTEM  		 = /SUBSYSTEM:CONSOLE
 
 
 # 2. Paths to Vulkan SDK, Windows Kits and Microsoft Build Tools
 
-SDK_WIN		 	 = C:\VulkanSDK\$(VERSION_SDK)
+SDK_WIN		 	 = C:\VulkanSDK\$(VERSION_SDK_WIN)
 KITS	 	 	 = C:\Program Files (x86)\Windows Kits\$(VERSION_WINDOWS)
 MSVC 	 	 	 = C:\Program Files (x86)\Microsoft Visual Studio\$(YEAR_MSVC)\BuildTools\VC\Tools\MSVC\$(VERSION_MSVC)
 

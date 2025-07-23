@@ -2,8 +2,6 @@
 
 OUT_NAME 		   = rebar
 OUT_DIR	   		   = dist
-ENTRY_NAME		   = main.cpp
-ENRTY_DIR		   = src
 
 
 # Check this version before building!!!
@@ -32,7 +30,7 @@ VERSION_KITS   	   = 10.0.26100.0
 # 1. Compiler, entry and out
 
 CC_WIN			 = cl
-ENTRY_WIN		 = ..\$(ENRTY_DIR)\$(ENTRY_NAME)
+ENTRIES_WIN		 = ..\src\main.cc ..\src\cc\sdl.cc
 SUBSYSTEM  		 = /SUBSYSTEM:CONSOLE
 
 
@@ -71,9 +69,6 @@ FLAGS_LINK_WIN	 = $(FLAGS_LIB_WIN) $(SUBSYSTEM)
 # 6. Scripts
 
 compile_win:
-	cd .\$(OUT_DIR) && $(CC_WIN) $(ENTRY_WIN) $(FLAGS_COMP_WIN) /link $(FLAGS_LINK_WIN)
+	cd .\$(OUT_DIR) && $(CC_WIN) $(ENTRIES_WIN) $(FLAGS_COMP_WIN) /link $(FLAGS_LINK_WIN)
 
-cleanup_win:
-	del .\$(OUT_DIR)\*.obj
-
-build_win: compile_win cleanup_win
+build_win: compile_win

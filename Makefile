@@ -11,10 +11,6 @@ ENTRIES_FMT		   = $(foreach e,$(ENTRIES),../src/$(e))
 
 # === For Windows ===
 
-
-# C:\VulkanSDK\<???>
-VERSION_SDK_WIN	   = 1.4.321.1
-
 # C:\Program Files (x86)\Microsoft Visual Studio\<???>
 YEAR_MSVC		   = 2022
 
@@ -31,19 +27,18 @@ VERSION_KITS   	   = 10.0.26100.0
 # 1. Compiler, entry and out
 
 CC_WIN			 = cl
-SUBSYSTEM  		 = /SUBSYSTEM:CONSOLE
 
 
 # 2. Paths to Vulkan SDK, Windows Kits and Microsoft Build Tools
 
-SDK_WIN		 	 = C:\VulkanSDK\$(VERSION_SDK_WIN)
+SDL_LIST_WIN	 = C:\SDL3-3.2.18 C:\SDL3_image-3.2.4
 KITS	 	 	 = C:\Program Files (x86)\Windows Kits\$(VERSION_WINDOWS)
 MSVC 	 	 	 = C:\Program Files (x86)\Microsoft Visual Studio\$(YEAR_MSVC)\BuildTools\VC\Tools\MSVC\$(VERSION_MSVC)
 
 
 # 3. Include paths
 
-INCL_SDK_WIN	 = $(SDK_WIN)\Include
+INCL_SDL_WIN	 = $(foreach a,$(SDL_LIST_WIN),$(a)\include)
 INCL_MSVC	 	 = $(MSVC)\include
 INCL_UCRT		 = $(KITS)\Include\$(VERSION_KITS)\ucrt
 INCL_UM			 = $(KITS)\Include\$(VERSION_KITS)\um
@@ -51,7 +46,7 @@ INCL_UM			 = $(KITS)\Include\$(VERSION_KITS)\um
 
 # 4. Library paths
 
-LIB_SDK_WIN		 = $(SDK_WIN)\Lib
+LIB_SDL_WIN		 = $(foreach a,$(SDL_LIST_WIN),$(a)\lib\x64)
 LIB_MSVC		 = $(MSVC)\lib\x64
 LIB_UCRT		 = $(KITS)\Lib\$(VERSION_KITS)\ucrt\x64
 LIB_UM			 = $(KITS)\Lib\$(VERSION_KITS)\um\x64
@@ -59,11 +54,11 @@ LIB_UM			 = $(KITS)\Lib\$(VERSION_KITS)\um\x64
 
 # 5. Flags
 
-FLAGS_INCL_WIN 	 = /I"$(INCL_SDK_WIN)" /I"$(INCL_MSVC)" /I"$(INCL_UCRT)" /I"$(INCL_UM)"
-FLAGS_LIB_WIN    = /LIBPATH:"$(LIB_SDK_WIN)" /LIBPATH:"$(LIB_MSVC)" /LIBPATH:"$(LIB_UM)" /LIBPATH:"$(LIB_UCRT)" SDL2.lib
+FLAGS_INCL_WIN 	 = $(foreach flag,$(INCL_SDL_WIN),/I"$(flag)") /I"$(INCL_MSVC)" /I"$(INCL_UCRT)" /I"$(INCL_UM)"
+FLAGS_LIB_WIN    = $(foreach flag,$(LIB_SDL_WIN),/LIBPATH:"$(flag)") /LIBPATH:"$(LIB_MSVC)" /LIBPATH:"$(LIB_UM)" /LIBPATH:"$(LIB_UCRT)"
 
 FLAGS_COMP_WIN	 = /EHsc /Fe"$(OUT_NAME).exe" $(FLAGS_INCL_WIN)
-FLAGS_LINK_WIN	 = $(FLAGS_LIB_WIN) $(SUBSYSTEM)
+FLAGS_LINK_WIN	 = $(FLAGS_LIB_WIN) $(SUBSYSTEM) SDL3.lib /SUBSYSTEM:CONSOLE
 
 
 # 6. Scripts

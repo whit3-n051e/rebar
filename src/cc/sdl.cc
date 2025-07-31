@@ -32,7 +32,20 @@ void sdl::create_window(::std::string const& name, uint32_t w, uint32_t h, bool 
     if (!self.window) throw ::std::runtime_error(SDL_GetError());
 }
 
+SDL_Window* sdl::get_window() noexcept {
+    if (!_inst) return nullptr;
+    return _inst->window;
+}
+
 void sdl::create_renderer(const char* name) {
     sdl& self = get_inst();
     if (self.window) self.renderer = SDL_CreateRenderer(self.window, name);
+}
+
+uint64_t sdl::get_delta_ms() {
+    sdl& self = get_inst();
+    uint32_t current_ticks = SDL_GetTicks();
+    uint32_t delta = current_ticks - self.ticks;
+    self.ticks = current_ticks;
+    return delta;
 }

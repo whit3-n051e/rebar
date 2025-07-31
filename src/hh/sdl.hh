@@ -12,6 +12,7 @@ class sdl {
     static ::std::unique_ptr<sdl> _inst;
     static ::std::mutex _mtx;
 
+    uint64_t ticks = SDL_GetTicks();
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
 
@@ -23,5 +24,7 @@ public:
 
     static void cleanup();
     static void create_window(::std::string const&, uint32_t, uint32_t, bool = false);
+    static SDL_Window* get_window() noexcept;
     static void create_renderer(const char* = nullptr);
+    static uint64_t get_delta_ms();
 };

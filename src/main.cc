@@ -15,7 +15,7 @@ extern "C" {
     }
 
     SDL_AppResult SDLCALL SDL_AppIterate(void *appstate) {
-        try { RebarEngine::frame(); }
+        try { RebarEngine::frame(sdl::get_delta_ms()); }
         catch (::std::exception const& e) {
             RebarEngine::report_error(e);
             return SDL_APP_FAILURE;

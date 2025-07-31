@@ -24,7 +24,7 @@ public:
 
     static uint64_t get_delta_ms();
     static void cleanup();
-    static void create_window(::std::string const&, uint32_t, uint32_t, bool = false);
+    static void create_window(::std::string const& name, uint32_t w, uint32_t h, bool fullscreen = false);
     static SDL_Window* get_window() noexcept;
-    static void create_renderer(const char* = nullptr);
+    static void create_renderer(const char* name = nullptr);
 };

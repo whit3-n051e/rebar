@@ -25,7 +25,8 @@ extern "C" {
 
     SDL_AppResult SDLCALL SDL_AppEvent(void *appstate, SDL_Event* event) {
         if (event->type == SDL_EVENT_QUIT) return SDL_APP_SUCCESS;
-        return RebarEngine::to_sdl_result(RebarEngine::handle_event(*event));
+        RebarEngine::handle_event(*event);
+        return SDL_APP_CONTINUE;
     }
 
     void SDLCALL SDL_AppQuit(void *appstate, SDL_AppResult result) { sdl::cleanup(); }

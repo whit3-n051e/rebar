@@ -2,16 +2,6 @@
 
 #include <iostream>
 
-
-// Using an enum class is safer than using an enum.
-SDL_AppResult RebarEngine::to_sdl_result(RebarEngine::Result result) noexcept {
-    switch (result) {
-        case Result::Continue: return SDL_APP_CONTINUE;
-        case Result::Success: return SDL_APP_SUCCESS;
-        case Result::Failure: return SDL_APP_FAILURE;
-    }
-}
-
 void RebarEngine::report_error(::std::exception const& e) noexcept { ::std::cout << e.what() << ::std::endl; }
 
 
@@ -22,8 +12,8 @@ void RebarEngine::init(::std::vector<::std::string> const& args) {
 
 
 // Each event gets sent here
-RebarEngine::Result RebarEngine::handle_event(SDL_Event const& event) noexcept {
-    return Result::Continue;
+void RebarEngine::handle_event(SDL_Event const& event) noexcept {
+    
 }
 
 

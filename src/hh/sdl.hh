@@ -12,6 +12,7 @@ class sdl {
     static ::std::mutex _mtx;
 
     SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
 
     sdl();
     ~sdl();
@@ -20,5 +21,6 @@ class sdl {
 public:
 
     static void do_nothing_loop();
-    static void create_window(::std::string const& name, uint32_t w, uint32_t h, uint32_t flags = 0);
+    static void create_window(::std::string const& name, uint32_t w, uint32_t h, bool fullscreen = false);
+    static void create_renderer();
 };

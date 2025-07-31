@@ -3,22 +3,10 @@
 OUT_NAME 		   = rebar
 OUT_DIR	   		   = dist
 
-RAW_ENTRIES 	   = main.cc cc/sdl.cc
+ENTRIES 	   	   = main.cc cc/sdl.cc
 
 
-ENTRIES			   = $(foreach e,$(RAW_ENTRIES),../src/$(e))
-
-
-# ===  For MacOS  ===
-
-
-CC_MAC = g++
-
-SDK_MAC = /Users/user/VulkanSDK/1.4.321.0/macOS
-
-INCL_MAC = $(SDK_MAC)/include
-
-
+ENTRIES_FMT		   = $(foreach e,$(ENTRIES),../src/$(e))
 
 
 # === For Windows ===
@@ -43,7 +31,6 @@ VERSION_KITS   	   = 10.0.26100.0
 # 1. Compiler, entry and out
 
 CC_WIN			 = cl
-ENTRIES_WIN		 = $(subst /,\,$(ENTRIES))
 SUBSYSTEM  		 = /SUBSYSTEM:CONSOLE
 
 
@@ -82,6 +69,6 @@ FLAGS_LINK_WIN	 = $(FLAGS_LIB_WIN) $(SUBSYSTEM)
 # 6. Scripts
 
 compile_win:
-	cd .\$(OUT_DIR) && $(CC_WIN) $(ENTRIES_WIN) $(FLAGS_COMP_WIN) /link $(FLAGS_LINK_WIN)
+	cd .\$(OUT_DIR) && $(CC_WIN) $(subst /,\,$(ENTRIES_FMT)) $(FLAGS_COMP_WIN) /link $(FLAGS_LINK_WIN)
 
 build_win: compile_win

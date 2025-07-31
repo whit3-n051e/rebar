@@ -1,12 +1,16 @@
 
-
-OUT_NAME 		   = rebar
-OUT_DIR	   		   = dist
-
-ENTRIES 	   	   = main.cc cc/sdl.cc
+# Useful functions
+rwildcard		   = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+towinpath		   = $(subst /,\,$1)
 
 
-ENTRIES_FMT		   = $(foreach e,$(ENTRIES),../src/$(e))
+
+exe_name 		   = rebar
+out_dir	   		   = dist
+source_dir		   = src
+
+
+entries		       = $(foreach e,$(call rwildcard,$(source_dir)/,*.cc),../$(e))
 
 
 # === For Windows ===
@@ -57,13 +61,13 @@ LIB_UM			 = $(KITS)\Lib\$(VERSION_KITS)\um\x64
 FLAGS_INCL_WIN 	 = $(foreach flag,$(INCL_SDL_WIN),/I"$(flag)") /I"$(INCL_MSVC)" /I"$(INCL_UCRT)" /I"$(INCL_UM)"
 FLAGS_LIB_WIN    = $(foreach flag,$(LIB_SDL_WIN),/LIBPATH:"$(flag)") /LIBPATH:"$(LIB_MSVC)" /LIBPATH:"$(LIB_UM)" /LIBPATH:"$(LIB_UCRT)"
 
-FLAGS_COMP_WIN	 = /EHsc /Fe"$(OUT_NAME).exe" $(FLAGS_INCL_WIN)
+FLAGS_COMP_WIN	 = /EHsc /Fe"$(exe_name).exe" $(FLAGS_INCL_WIN)
 FLAGS_LINK_WIN	 = $(FLAGS_LIB_WIN) $(SUBSYSTEM) SDL3.lib /SUBSYSTEM:CONSOLE
 
 
 # 6. Scripts
 
 compile_win:
-	cd .\$(OUT_DIR) && $(CC_WIN) $(subst /,\,$(ENTRIES_FMT)) $(FLAGS_COMP_WIN) /link $(FLAGS_LINK_WIN)
+	cd .\$(out_dir) && $(CC_WIN) $(call towinpath,$(entries)) $(FLAGS_COMP_WIN) /link $(FLAGS_LINK_WIN)
 
 build_win: compile_win

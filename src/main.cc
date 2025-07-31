@@ -3,6 +3,9 @@
 #include "SDL3/SDL_init.h"
 #include "hh/engine.hh"
 
+// This file is intended to be edited as rarely as possible
+// It is very likely that it is always going to stay exactly the way it is right now
+// Please work and be a good code, I believe in you <3
 
 extern "C" {
     SDL_AppResult SDLCALL SDL_AppInit(void **appstate, int argc, char **argv) {

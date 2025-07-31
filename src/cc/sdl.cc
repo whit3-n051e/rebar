@@ -11,6 +11,14 @@ sdl::sdl() { if (!SDL_Init(SDL_INIT_VIDEO)) throw ::std::runtime_error(SDL_GetEr
 
 sdl::~sdl() { SDL_Quit(); }
 
+uint64_t sdl::get_delta_ms() {
+    sdl& self = get_inst();
+    uint32_t current_ticks = SDL_GetTicks();
+    uint32_t delta = current_ticks - self.ticks;
+    self.ticks = current_ticks;
+    return delta;
+}
+
 void sdl::cleanup() {
     sdl& self = get_inst();
     if (self.renderer) SDL_DestroyRenderer(self.renderer);
@@ -42,10 +50,3 @@ void sdl::create_renderer(const char* name) {
     if (self.window) self.renderer = SDL_CreateRenderer(self.window, name);
 }
 
-uint64_t sdl::get_delta_ms() {
-    sdl& self = get_inst();
-    uint32_t current_ticks = SDL_GetTicks();
-    uint32_t delta = current_ticks - self.ticks;
-    self.ticks = current_ticks;
-    return delta;
-}

@@ -22,9 +22,9 @@ class sdl {
 
 public:
 
+    static uint64_t get_delta_ms();
     static void cleanup();
     static void create_window(::std::string const&, uint32_t, uint32_t, bool = false);
     static SDL_Window* get_window() noexcept;
     static void create_renderer(const char* = nullptr);
-    static uint64_t get_delta_ms();
 };

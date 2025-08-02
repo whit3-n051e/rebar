@@ -33,6 +33,9 @@ class CfgValue {
 
     template <class T> struct type_index : variant_index<T, decltype(value)> {};
 
+    static inline ::std::vector<::std::string> split(::std::string const& str, ::std::string const& deli);
+    static inline void trim_edit(::std::string& str);
+    static inline ::std::string trim_copy(::std::string const& str);
 public:
     enum class Type : ::std::size_t {
         String  = type_index<StringType>::v,
@@ -48,6 +51,7 @@ public:
     CfgValue(::std::string const& _n, BoolType _v) noexcept;
     CfgValue(::std::string const& _n, CfgList _v) noexcept;
     constexpr Type get_type() const noexcept;
+    
 };
 
 

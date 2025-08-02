@@ -4,6 +4,7 @@
 
 
 class RebarEngine {
+    static constexpr const uint64_t sixtieth_of_second_ns = static_cast<uint64_t>(1'000'000'000 / 60.f);
 public:
     static void report_error(::std::exception const& e) noexcept;
     static void init(::std::vector<::std::string> const& args);

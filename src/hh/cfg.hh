@@ -4,6 +4,8 @@
 #include <variant>
 #include <concepts>
 #include <vector>
+#include <type_traits>
+#include <cstddef>
 
 
 namespace {

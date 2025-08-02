@@ -1,8 +1,6 @@
 #include "SDL3/SDL_filesystem.h"
 #include "../hh/cfg.hh"
 #include <fstream>
-#include <type_traits>
-#include <cstddef>
 
 
 CfgValue::CfgValue(::std::string const& _n, StringType _v) noexcept : name{_n}, value{_v} {}

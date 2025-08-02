@@ -5,6 +5,18 @@
 #include <concepts>
 #include <vector>
 
+
+namespace {
+    template <class T, class... Ts> struct Index;
+    template <class T, class... Ts> struct Index<T, T, Ts...> : std::integral_constant<std::size_t, 0> {};
+    template <class T, class U, class... Ts> struct Index<T, U, Ts...> : std::integral_constant<std::size_t, 1 + Index<T, Ts...>::value> {};
+    template <class T, class V> struct variant_index;
+    template <class T, class... Ts> struct variant_index<T, ::std::variant<Ts...>> {
+        static const constexpr ::std::size_t v = Index<T, Ts...>::value;
+    };
+}
+
+
 class CfgList;
 
 
@@ -16,13 +28,16 @@ class CfgValue {
 
     ::std::string name;
     ::std::variant<StringType, IntType, RealType, BoolType, CfgList> value;
+
+    template <class T> struct type_index : variant_index<T, decltype(value)> {};
+
 public:
-    enum class Type : uint8_t {
-        String = 0,
-        Integer = 1,
-        Real = 2,
-        Boolean = 3,
-        List = 4
+    enum class Type : ::std::size_t {
+        String  = type_index<StringType>::v,
+        Integer = type_index<IntType>::v,
+        Real    = type_index<RealType>::v,
+        Boolean = type_index<BoolType>::v,
+        List    = type_index<CfgList>::v
     };
 
     CfgValue(::std::string const& _n, StringType _v) noexcept;
